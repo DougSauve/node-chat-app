@@ -9,6 +9,8 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIO(server); //this is my web sockets server.
 
+const {generateMessage} = require('./utils/message');
+
 app.use(express.static(publicPath));
 
 io.on('connection', (socket) => {
@@ -19,32 +21,16 @@ io.on('connection', (socket) => {
     text: "Welcome to the chat app!",
     createdAt: new Date().getTime()
   });
-  socket.broadcast.emit('welcome', {
-    from: "Admin",
-    text: "New user joined the chat.",
-    createdAt: new Date().getTime()
-  });
-  //socket.emit from admin, welcome
-  //socket.broadcast.emit, so-and-so joined.
+  socket.broadcast.emit('welcome', generateMessage('Admin', 'New user joined the chat.'));
 
   socket.on('createMessage', function(message) {
     console.log('createMessage: ', message);
-    io.emit('newMessage', {
-      from: message.from,
-      text: message.text,
-      createdAt: new Date().getTime()
-    });
-
-
-    // socket.broadcast.emit('newMessage', {
-    //   from: message.from,
-    //   text: message.text
-    // });
+    io.emit('newMessage', generateMessage('Admin', 'New user joined the chat.'));
   });
 
   socket.on('disconnect', () => {
     console.log('User disconnected.');
   });
-}) //listen for a new connection
+})
 
 server.listen(port, () => console.log(`app is up on port ${port}.`));
