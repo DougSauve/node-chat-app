@@ -21,8 +21,8 @@ io.on('connection', (socket) => {
 
   socket.on('createMessage', function (message, gotIt) {
     console.log('message passing through: ', message);
-    io.emit('newMessage', message);
-    gotIt('This is from the server.');
+    io.emit('newMessage', generateMessage(message.from, message.text));
+    gotIt();
   });
 
   socket.on('createLocationMessage', (coords) => {
