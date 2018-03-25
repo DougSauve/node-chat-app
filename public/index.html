@@ -22,18 +22,38 @@
     </div>
   </div>
 
-  <div id = "app"></div>
-  <!--<script src = "./react/react.js"></script>-->
+  <script id = "message-template" type = "text/template">
+    <li class = "message">
+      <div class = "message__title">
+        <h4>{{from}}</h4>
+        <span>{{createdAt}}</span>
+      </div>
+      <div class = "message__body">
+        <p>{{text}}</p>
+      </div>
+    </li>
+  </script>
+
+  <script id = "location-message-template" type = "text/template">
+    <li class = "message">
+      <div class = "message__title">
+        <h4>{{from}}</h4>
+        <span>{{createdAt}}</span>
+      </div>
+      <div class = "message__body">
+        <p>
+          <a href = {{url}} target = "_blank">See location</a>
+        </p>
+      </div>
+    </li>
+  </script>
+
+  <!--<div id = "app"></div>
+  <script src = "./react/react.js"></script>-->
   <script src = "./js/libs/jQuery.js"></script>
   <script src = "./js/libs/moment.js"></script>
+  <script src = "./js/libs/mustache.js"></script>
   <script src = "/socket.io/socket.io.js"></script>
-  <script>
-    const bodyStyle = document.body.style;
-    bodyStyle.color = "maroon";
-    bodyStyle.fontWeight = "bold";
-    bodyStyle.fontSize = "18px";
-    bodyStyle.backgroundColor = "#24b7b7";
-  </script>
   <script src = "./js/index.js"></script>
 
 </body>

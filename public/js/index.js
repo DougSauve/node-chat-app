@@ -1,35 +1,35 @@
 const socket = io();
 
-// socket.emit('createMessage', {
-//   from: 'Frank',
-//   text: 'hi'
-// }, function (gotIt) {
-//   console.log("Got it: ", gotIt);
-// });
-
 socket.on('connect', function () {
   console.log('connected to server');
 });
 
 socket.on('newMessage', function (message) {
   const formattedTime = moment(message.createdAt).format('h:mm:ss a');
-  console.log('new message: ', message);
-  const p = jQuery('<p></p>');
-  p.text(`${message.from} ${formattedTime}: ${message.text}`);
+  // console.log('new message: ', message);
+  // const p = jQuery('<p></p>');
+  // p.text(`${message.from} ${formattedTime}: ${message.text}`);
+  //
+  // jQuery('#messages').append(p);
+  const template = jQuery('#message-template').html();
+  const html = Mustache.render(template, {
+    from: message.from,
+    text: message.text,
+    createdAt: formattedTime
+  });
 
-  jQuery('#messages').append(p);
+  jQuery('#messages').append(html);
 });
 
 socket.on('newLocationMessage', function(message) {
   const formattedTime = moment(message.createdAt).format('h:mm:ss a');
-  const p = jQuery('<p></p>');
-  const a = jQuery('<a target = "_blank">My Location</a>');
-
-  p.text(`${message.from} ${formattedTime}: `);
-  a.attr('href', message.url);
-  p.append(a);
-
-  jQuery('#messages').append(p);
+  const template = jQuery('#location-message-template').html();
+  const html = Mustache.render(template, {
+    from: message.from,
+    url: message.url,
+    createdAt: formattedTime
+  });
+  jQuery('#messages').append(html);
 });
 
 jQuery('#message-form').on('submit', function (e) {
