@@ -37,14 +37,21 @@ io.on('connection', (socket) => {
 
   //user sends a message
   socket.on('createMessage', function (message, gotIt) {
-    console.log('message passing through: ', message);
-    io.emit('newMessage', generateMessage(message.from, message.text));
+    const user = users.getUser(socket.id);
+
+    if(user && isRealString(message.text)) {
+      io.to(user.room).emit('newMessage', generateMessage(user.name, message.text));
+    }
     gotIt();
   });
 
   //user sends location
   socket.on('createLocationMessage', (coords) => {
-    io.emit('newLocationMessage', generateLocationMessage('Doug', coords.latitude, coords.longitude));
+    const user = users.getUser(socket.id);
+
+    if (user) {
+      io.to(user.room).emit('newLocationMessage', generateLocationMessage(user.name, coords.latitude, coords.longitude));
+    }
   });
 
   //user leaves the room

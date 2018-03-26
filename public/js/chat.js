@@ -82,9 +82,9 @@ jQuery('#message-form').on('submit', function (e) {
   e.preventDefault();
 
   socket.emit('createMessage', {
-    from: 'Doug',
     text: jQuery('[name = message]').val()
   }, function () {
+    //gotIt
     e.target.elements.message.value = '';
   });
 });
@@ -97,6 +97,7 @@ locationButton.on('click', function() {
   locationButton.attr('disabled', 'disabled');
 
   navigator.geolocation.getCurrentPosition(function (position) {
+
       socket.emit('createLocationMessage', {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
